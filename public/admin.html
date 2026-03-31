@@ -144,6 +144,52 @@ textarea {
     cursor: pointer;
     color: white;
 }
+    /* ══ MENÚ MÓVIL ══ */
+.admin-menu-toggle{
+  display:none;width:100%;padding:12px 20px;
+  background:linear-gradient(135deg,var(--pink-dark),var(--pink-mid));
+  color:white;border:none;font-family:var(--font-main);
+  font-size:0.9rem;font-weight:800;text-align:left;cursor:pointer;
+  align-items:center;gap:10px;
+}
+.sidebar.mob-open{display:block !important;}
+
+/* ══ RESPONSIVE TABLET (≤900px) ══ */
+@media(max-width:900px){
+  .admin-layout{flex-direction:column;padding:0 14px 24px;margin:0 auto;gap:0}
+  .admin-menu-toggle{display:flex}
+  .sidebar{display:none;width:100%;position:static;border-radius:0;border-top:none;border-bottom:2px solid var(--gray-200);box-shadow:none;}
+  .admin-content{width:100%;padding-top:16px}
+  .stats-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .venta-layout{grid-template-columns:1fr}
+  .resumen-pedido{position:static}
+  .admin-card{overflow-x:auto}
+  table{min-width:520px}
+  .admin-chip{display:none}
+}
+
+/* ══ RESPONSIVE MÓVIL (≤560px) ══ */
+@media(max-width:560px){
+  .header-inner{padding:0 14px;gap:10px}
+  .logo-text{font-size:1.1rem}
+  .btn-salir{padding:7px 12px;font-size:0.72rem}
+  .admin-layout{padding:0 10px 20px}
+  .stats-grid{grid-template-columns:repeat(2,1fr);gap:8px}
+  .stat-card{padding:14px 12px}
+  .stat-value{font-size:1.1rem}
+  .stat-icon{font-size:1.3rem;margin-bottom:5px}
+  .stat-label{font-size:0.6rem;letter-spacing:0}
+  .admin-section-title{font-size:1.2rem;margin-bottom:14px}
+  table{min-width:480px;font-size:0.78rem}
+  th,td{padding:8px 10px}
+  .cart-item{flex-wrap:wrap;gap:6px}
+  .cart-item-name{width:100%}
+  .modal{padding:20px 16px;border-radius:14px;max-width:95vw}
+  .modal h3{font-size:1.1rem}
+  .filtros{flex-direction:column}
+  .filtros input,.filtros select{min-width:unset;width:100%}
+  .admin-card-header{flex-direction:column;align-items:flex-start;gap:8px}
+}
 </style>
 </head>
 <body>
@@ -162,9 +208,9 @@ textarea {
   </div>
 </header>
 
+<button class="admin-menu-toggle" id="menuToggle" onclick="toggleSidebar()">☰ &nbsp;Menú Admin</button>
 <div class="admin-layout">
-  <nav class="sidebar">
-    <div class="sidebar-title">Menú Admin</div>
+  <nav class="sidebar" id="adminSidebar">
     <button class="nav-btn active" onclick="showPanel('dashboard')"><span class="nav-icon">📊</span> Dashboard</button>
     <div class="nav-divider"></div>
     <button class="nav-btn" onclick="showPanel('usuarios')"><span class="nav-icon">👥</span> Usuarios</button>
@@ -381,13 +427,15 @@ function showPanel(name){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('panel-'+name).classList.add('active');
+  document.getElementById('adminSidebar').classList.remove('mob-open');
   document.querySelectorAll('.nav-btn').forEach(btn=>{if(btn.getAttribute('onclick').includes("'"+name+"'"))btn.classList.add('active');});
   if(name==='dashboard') loadDashboard();
   if(name==='usuarios') loadUsuarios();
   if(name==='productos') loadProductos();
   if(name==='ventas') loadVentas();
   if(name==='venta-manual') loadVentaManual();
-  if(name==='nuevo-producto') {}
+  if(name==='nuevo-producto')
+  {}
 }
 
 const fmt=n=>new Intl.NumberFormat('es-CO',{minimumFractionDigits:0}).format(Number(n)||0);
@@ -640,7 +688,9 @@ async function crearProducto(){
     else notif('❌ '+(res.error||'Error'),'err');
   }catch{notif('❌ Error de conexión','err');}
 }
-
+function toggleSidebar(){
+  document.getElementById('adminSidebar').classList.toggle('mob-open');
+}
 function limpiarFormNuevoProducto(){
   document.getElementById('nuevo_nombre').value='';
   document.getElementById('nuevo_serial').value='';

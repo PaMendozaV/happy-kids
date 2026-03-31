@@ -280,21 +280,28 @@ function _buildCard(p) {
 
 // ===== CARRITO =====
 function agregarAlCarrito(codproducto) {
-    var p = productos.find(function (x) { return x.codproducto === codproducto; });
-    if (!p) {
-        fetch('/api/productos')
-            .then(function (r) { return r.json(); })
-            .then(function (data) { productos = data; agregarAlCarrito(codproducto); })
-            .catch(function () { mostrarNotificacion('❌ Error al cargar productos', 'error'); });
-        return;
-    }
-    var ex = carrito.find(function (i) { return i.codproducto === codproducto; });
-    if (ex) { ex.cantidad++; }
-    else { carrito.push({ codproducto: p.codproducto, nombre: p.nombreproducto, precio: p.precio_venta, cantidad: 1 }); }
-    actualizarCarritoCount();
-    mostrarNotificacion('✅ ' + p.nombreproducto + ' agregado al carrito');
-}
+  // ── Verificar sesión antes de agregar ──
+  var usuario = localStorage.getItem('usuario');
+  if (!usuario) {
+    mostrarNotificacion('⚠️ Debes iniciar sesión para comprar', 'error');
+    setTimeout(function() { cargarPagina('login'); }, 1500);
+    return;
+  }
 
+  var p = productos.find(function(x) { return x.codproducto === codproducto; });
+  if (!p) {
+    fetch('/api/productos')
+      .then(function(r) { return r.json(); })
+      .then(function(data) { productos = data; agregarAlCarrito(codproducto); })
+      .catch(function() { mostrarNotificacion('❌ Error al cargar productos', 'error'); });
+    return;
+  }
+  var ex = carrito.find(function(i) { return i.codproducto === codproducto; });
+  if (ex) { ex.cantidad++; }
+  else { carrito.push({ codproducto: p.codproducto, nombre: p.nombreproducto, precio: p.precio_venta, cantidad: 1 }); }
+  actualizarCarritoCount();
+  mostrarNotificacion('✅ ' + p.nombreproducto + ' agregado al carrito');
+}
 function actualizarCarritoCount() {
     var total = carrito.reduce(function (s, i) { return s + i.cantidad; }, 0);
     var el = document.getElementById('carrito-count');

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Kids - Piñatería y Confitería</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- ===== HEADER / NAVBAR ===== -->
+    <header class="header" id="header">
+        <div class="header-inner">
+            <a class="logo" href="#" onclick="cargarPagina('inicio')">
+                <span class="logo-icon">🎈</span>
+                <span class="logo-text">Happy Kids</span>
+            </a>
+
+            <nav class="nav" id="mainNav">
+                <a href="#" onclick="cargarPagina('inicio')" class="nav-link">INICIO</a>
+                <a href="#" onclick="cargarPagina('productos')" class="nav-link">PRODUCTOS</a>
+                <a href="#" onclick="cargarPagina('nosotros')" class="nav-link">SOBRE NOSOTROS</a>
+                <a href="#" onclick="cargarPagina('faq')" class="nav-link">PREGUNTAS FRECUENTES</a>
+            </nav>
+
+            <div class="header-actions">
+                <a href="#" id="loginLink" onclick="cargarPagina('login')" class="btn-nav-login">INICIAR SESIÓN</a>
+                <a href="#" id="dashboardLink" onclick="cargarPagina('dashboard')" class="btn-nav-login" style="display:none">MI CUENTA</a>
+                <a href="#" id="logoutLink" onclick="cerrarSesion()" class="btn-nav-logout" style="display:none">SALIR</a>
+                <button class="btn-carrito" onclick="verCarrito()">
+                    🛒 <span class="carrito-badge" id="carrito-count">0</span>
+                </button>
+            </div>
+
+            <button class="hamburger" id="hamburger" onclick="toggleMenu()">☰</button>
+        </div>
+    </header>
+
+    <!-- ===== CONTENIDO PRINCIPAL ===== -->
+    <main id="contenido-principal"></main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-cols">
+                <div class="footer-col">
+                    <nav class="footer-nav">
+                        <a href="#" onclick="cargarPagina('inicio')">INICIO</a>
+                        <a href="#" onclick="cargarPagina('productos')">CATÁLOGO DE PRODUCTO</a>
+                        <a href="#" onclick="cargarPagina('nosotros')">SOBRE NOSOTROS</a>
+                        <a href="#" onclick="cargarPagina('faq')">PREGUNTAS FRECUENTES</a>
+                    </nav>
+                </div>
+                <div class="footer-col footer-social">
+                    <a href="#" class="social-btn">📞</a>
+                    <a href="#" class="social-btn">📘</a>
+                    <a href="#" class="social-btn">📸</a>
+                </div>
+            </div>
+            <p class="footer-copy">© 2026 Happy Kids. Desarrollado por EventStock | Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <!-- IMPORTANTE: main.js primero (define variables globales y funciones base) -->
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
